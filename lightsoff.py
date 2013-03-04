@@ -46,7 +46,7 @@ class MyPaintWidget(Widget):
         with self.canvas:
             for i in range(5):
                 for j in range(5):
-                    if (mapdata[level][j][i] == 1):
+                    if (self.rects[j][i] == 1):
                         Color(1, 0, 0)
                     else:
                         Color(1, 0, 1)
@@ -59,10 +59,8 @@ class MyPaintWidget(Widget):
         pass
 
     def load_level(self, level):
-        
         for i in range(5):
             self.rects.append(mapdata[level][i])
-        
         with self.canvas:
             for i in range(5):
                 for j in range(5):
@@ -85,8 +83,9 @@ class MyPaintWidget(Widget):
 	if (not self.started):
 	    self.start()
 	    self.started = True
-        self.check_button(touch)
-        self.update_screen()
+	else:
+            self.check_button(touch)
+            self.update_screen()
         
 class MyPaintApp(App):
 
