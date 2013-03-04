@@ -54,13 +54,19 @@ class MyPaintWidget(Widget):
                     (i * self.size[0] / 5.0), self.pos[1] + 2 + (j * self.size[1] / 5.0)]
                     , size=[self.size[0] / 5.0 - 4, self.size[1] / 5.0 - 4])
 
+    def update_map(i, j):
+        self.rects[i][j] = not self.rects[i][j]
 
     def check_button(self, touch):
-        pass
+        i = int (touch.x / (self.size / 5.0))
+        j = int (touch.y / (self.size / 5.0))
+        self.update_map(i, j)
 
     def load_level(self, level):
         for i in range(5):
-            self.rects.append(mapdata[level][i])
+            self.rects.append([])
+            for j in range(5):
+                self.rects.append(mapdata[level][i][j])
         with self.canvas:
             for i in range(5):
                 for j in range(5):
