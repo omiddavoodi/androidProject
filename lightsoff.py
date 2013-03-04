@@ -16,18 +16,18 @@ class MyPaintWidget(Widget):
                 return self
     
 	def start(self):
-		for i in range(5):
-			self.rects.append([])
-			for j in range(5):
-				self.rects[i].append([])
-		with self.canvas:
-            Color(1, 0, 0)
-            for i in range(5):
-                for j in range(5):
-                    self.rects[i][j] = Rectangle(pos=[self.pos[0] + 2 + 
-                    (i * self.size[0] / 5.0), self.pos[1] + 2 + (j * self.size[1] / 5.0)]
-                    , size=[self.size[0] / 5.0 - 4, self.size[1] / 5.0 - 4])
-	
+                for i in range(5):
+                    self.rects.append([])
+                    for j in range(5):
+                        self.rects[i].append([])
+                with self.canvas:
+                    Color(1, 0, 0)
+                    for i in range(5):
+                        for j in range(5):
+                            self.rects[i][j] = Rectangle(pos=[self.pos[0] + 2 + 
+                            (i * self.size[0] / 5.0), self.pos[1] + 2 + (j * self.size[1] / 5.0)]
+                            , size=[self.size[0] / 5.0 - 4, self.size[1] / 5.0 - 4])
+                
 	def on_touch_down(self, touch):
 		if (not self.started):
 			self.start()
