@@ -63,8 +63,8 @@ class MyPaintWidget(Widget):
         self.rects[i][j] = not self.rects[i][j]
 
     def check_button(self, touch):
-        i = int (touch.x / (self.size / 5.0))
-        j = int (touch.y / (self.size / 5.0))
+        i = int (touch.x / (self.size[0] / 5.0))
+        j = int (touch.y / (self.size[1] / 5.0))
         self.update_map(i, j)
 
     def load_level(self, level):
