@@ -45,14 +45,21 @@ class MyPaintWidget(Widget):
     rects = [] #this holds the state of 25 different areas
     started = False #determines whether the game is started or not
     level = 0 #current level
-
+    temp_rects = [] #holds the canvas rectangles so that we remove the previous ones in each update to avoid memory leaks
+    
     def update_screen(self):
         '''updated the screen'''
-        #we redraw everything at each update so that the game can support the rotation of the device
+        #we redraw everything at each update so that the game can support them rotation of the device
+        if self.started:
+            for i in range(26):
+                self.temp_rects.append(0)
         with self.canvas:
+            for temp in self.temp_rects:
+                self.remove_widget(temp)
             #clear everthing
             Color(0, 0, 0)
-            Rectangle(pos=self.pos, size=self.size)
+            print (self.temp_rects)
+            #self.temp_rects[25] = Rectangle(pos=self.pos, size=self.size)
             for i in range(5):
                 for j in range(5):
                     if (self.rects[i][j] == 1): #on
@@ -60,7 +67,7 @@ class MyPaintWidget(Widget):
                     else: #off
                         Color(0.2, 0.2, 0.2)
                     #it will draw new rectangles over the older ones.
-                    Rectangle(pos=[self.pos[0] + 2 + 
+                    self.temp_rects[4 * i + j] = Rectangle(pos=[self.pos[0] + 2 + 
                     (i * self.size[0] / 5.0), self.pos[1] + 2 + (j * self.size[1] / 5.0)]
                     , size=[self.size[0] / 5.0 - 4, self.size[1] / 5.0 - 4])
 
