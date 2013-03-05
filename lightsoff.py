@@ -49,7 +49,7 @@ class MyPaintWidget(Widget):
         with self.canvas:
             for i in range(5):
                 for j in range(5):
-                    if (self.rects[j][i] == 1): #on
+                    if (self.rects[i][j] == 1): #on
                         Color(1, 0, 0)
                     else: #off
                         Color(1, 0, 1)
@@ -59,19 +59,27 @@ class MyPaintWidget(Widget):
                     (i * self.size[0] / 5.0), self.pos[1] + 2 + (j * self.size[1] / 5.0)]
                     , size=[self.size[0] / 5.0 - 4, self.size[1] / 5.0 - 4])
 
-    def update_map(i, j):
-        self.rects[i][j] = not self.rects[i][j]
+    def update_map(self, i, j):
+        '''updates the map according to touch'''
+        print self.rects
+        self.rects[i][j] = 1 if not self.rects[i][j] else 0
+        if i - 1 >= 0 : self.rects[i - 1][j] = 1 if not self.rects[i - 1][j] else 0
+        if i + 1 <= 4 : self.rects[i + 1][j] = 1 if not self.rects[i + 1][j] else 0
+        if j - 1 >= 0 : self.rects[i][j - 1] = 1 if not self.rects[i][j + 1] else 0
+        if j + 1 <= 4 : self.rects[i][j + 1] = 1 if not self.rects[i][j + 1] else 0
 
     def check_button(self, touch):
-        i = int (touch.x / (self.size[0] / 5.0))
-        j = int (touch.y / (self.size[1] / 5.0))
+        '''finds out with button has been touched'''
+
+        i = int (touch.x / self.size[0] * 5.0)
+        j = int (touch.y / self.size[1] * 5.0)        
         self.update_map(i, j)
 
     def load_level(self, level):
         for i in range(5):
             self.rects.append([])
             for j in range(5):
-                self.rects.append(mapdata[level][i][j])
+                self.rects[i].append(mapdata[level][i][j])
         with self.canvas:
             for i in range(5):
                 for j in range(5):
