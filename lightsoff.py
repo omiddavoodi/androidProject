@@ -1,6 +1,6 @@
 import kivy
 kivy.require('1.1.1')
-
+import random
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import Color, Ellipse, Line, Rectangle
@@ -45,6 +45,7 @@ class MyPaintWidget(Widget):
     rects = [] #this holds the state of 25 different areas
     started = False #determines whether the game is started or not
     level = 0 #current level
+    random = False #if the level is random...
     
     def update_screen(self):
         '''updated the screen'''
@@ -97,24 +98,41 @@ class MyPaintWidget(Widget):
         if flag: self.level += 1
         return flag
 
-    def start(self, level):
+    def levels_start(self, level):
         '''upon start, load the first level'''
         self.rects = []
         self.load_level(level)
-                
+
+    def random_start(self): #creating a ranodm map
+        '''randomly generates a level'''
+        self.rects = [[0,0,0,0,0],
+                     [0,0,0,0,0],
+                     [0,0,0,0,0],
+                     [0,0,0,0,0],
+                     [0,0,0,0,0]]
+        for i in range(random.randint(6,9)):
+            self.update_map(random.randint(0,4),random.randint(0,4))            
+        self.update_screen()
+        
     def on_touch_down(self, touch):
         '''handles the touch event'''
         #TODO: a splash screen should replace the black one. should be done in mypaint.kv --- Omid ---
 	if (not self.started):
-	    self.start(0)
-	    self.started = True
+            if (touch.y / self.size[1] <= 0.5):
+                self.random = False
+                self.levels_start(0)
+                self.started = True
+            else:
+                self.random = True
+                self.random_start()
+                self.started = True
 	else: #only check buttons if we have really started the game.
             self.check_button(touch)
             self.update_screen()
             if self.next_level():
-                if (self.level == len(mapdata)):
+                if (self.random or self.level == len(mapdata)):
                     exit() #TODO: some screen, etc. --- Unassigned --- maybe Reza?
-                self.start(self.level)
+                self.levels_start(self.level)
         
 class MyPaintApp(App):
     def build(self):
