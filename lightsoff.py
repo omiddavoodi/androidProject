@@ -44,6 +44,7 @@ class MyPaintWidget(Widget):
     
     rects = [] #this holds the state of 25 different areas
     started = False #determines whether the game is started or not
+    level = 0
 
     def update_screen(self):
         with self.canvas:
@@ -91,18 +92,28 @@ class MyPaintWidget(Widget):
                     (i * self.size[0] / 5.0), self.pos[1] + 2 + (j * self.size[1] / 5.0)]
                     , size=[self.size[0] / 5.0 - 4, self.size[1] / 5.0 - 4])
 
-    def start(self):
-        #upon start, load the first level
-        self.load_level(0)
+    def next_level(self):
+        flag = True
+        for i in self.rects:
+            for j in i:
+                if j: flag = False
+        if flag: self.level += 1
+        return flag
+
+    def start(self, level):
+        #upon start, load the first level               
+        self.rects = []
+        self.load_level(level)
                 
     def on_touch_down(self, touch):
         #TODO: a splash screen should replace the black one. should be done in mypaint.kv
 	if (not self.started):
-	    self.start()
+	    self.start(0)
 	    self.started = True
 	else: #only check buttons if we have really started the game.
             self.check_button(touch)
             self.update_screen()
+            if self.next_level():self.start(self.level)
         
 class MyPaintApp(App):
     def build(self):
