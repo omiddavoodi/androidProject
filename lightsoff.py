@@ -65,7 +65,7 @@ class MyPaintWidget(Widget):
         self.rects[i][j] = 1 if not self.rects[i][j] else 0
         if i - 1 >= 0 : self.rects[i - 1][j] = 1 if not self.rects[i - 1][j] else 0
         if i + 1 <= 4 : self.rects[i + 1][j] = 1 if not self.rects[i + 1][j] else 0
-        if j - 1 >= 0 : self.rects[i][j - 1] = 1 if not self.rects[i][j + 1] else 0
+        if j - 1 >= 0 : self.rects[i][j - 1] = 1 if not self.rects[i][j - 1] else 0
         if j + 1 <= 4 : self.rects[i][j + 1] = 1 if not self.rects[i][j + 1] else 0
 
     def check_button(self, touch):
