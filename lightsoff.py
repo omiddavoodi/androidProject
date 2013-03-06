@@ -153,7 +153,7 @@ class MyPaintWidget(Widget):
     random = False #if the level is random...
     
     def update_screen(self):
-        '''updated the screen'''
+        '''updates the screen'''
         #we redraw everything at each update so that the game can support them rotation of the device
         with self.canvas:
             #clear everthing
@@ -168,8 +168,14 @@ class MyPaintWidget(Widget):
                         Color(0.2, 0.2, 0.2)
                     #it will draw new rectangles over the older ones.
                     Rectangle(pos=[self.pos[0] + 2 + 
-                    (i * self.size[0] / 5.0), self.pos[1] + 2 + (j * self.size[1] / 5.0)]
-                    , size=[self.size[0] / 5.0 - 4, self.size[1] / 5.0 - 4])
+                    (i * self.size[0] / 5.0), self.pos[1] + 2 + self.size[1] / 10.0 + (j * (self.size[1] * 9.0 / 10.0) / 5.0)]
+                    , size=[self.size[0] / 5.0 - 4, (self.size[1] * 9.0 / 10.0) / 5.0 - 4])
+            Color(1, 0 ,0)
+            Rectangle(pos = [self.pos[0] + 2, self.pos[1] + 2], 
+                    size=[self.size[0] / 2.0 - 4, self.size[1] / 10.0 - 4])
+            Color(1, 1, 0)
+            Rectangle(pos = [self.pos[0] + 2 + self.size[0] / 2.0 , self.pos[1] + 2], 
+                    size=[self.size[0] / 2.0 - 4, self.size[1] / 10.0 - 4])
 
     def update_map(self, i, j):
         '''updates the map according to touch'''
@@ -178,10 +184,20 @@ class MyPaintWidget(Widget):
         if i + 1 <= 4 : self.rects[i + 1][j] = not self.rects[i + 1][j] # the
         if j - 1 >= 0 : self.rects[i][j - 1] = not self.rects[i][j - 1] # adjected
         if j + 1 <= 4 : self.rects[i][j + 1] = not self.rects[i][j + 1] # tiles
+
+    def restart_level():
+        pass
     
     def check_button(self, touch):
         '''finds out with button has been touched'''
-        #not the most accurate way but effective still
+        #not the most accurate way but effective still --> hamine k has omid :P :P :D 
+        #moshkeli dari bia be khodam begu chera posh saram comment mizari??? >:(
+
+        if touch.y < self.size[1] / 10.0:
+            if touch.x > self.size[0] / 2.0:
+                self.levels_start(self.level)
+                return
+            exit()
         i = int (touch.x / self.size[0] * 5.0)
         j = int (touch.y / self.size[1] * 5.0)        
         self.update_map(i, j)
