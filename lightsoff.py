@@ -199,7 +199,7 @@ class MyPaintWidget(Widget):
                 return
             exit()
         i = int (touch.x / self.size[0] * 5.0)
-        j = int (touch.y / self.size[1] * 5.0)        
+        j = int (touch.y / (self.size[1] - 2) * 9.0 / 10.0 * 5.0)        
         self.update_map(i, j)
 
     def load_level(self, level):
